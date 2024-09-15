@@ -99,10 +99,8 @@ const App = () => {
   const handleDragEnd = async (result) => {
     const { source, destination } = result;
 
-    // Se a tarefa foi solta fora de qualquer coluna, não faz nada
     if (!destination) return;
 
-    // Se a tarefa foi solta na mesma posição, não faz nada
     if (
       source.droppableId === destination.droppableId &&
       source.index === destination.index
@@ -113,43 +111,35 @@ const App = () => {
     const sourceStatus = source.droppableId;
     const destStatus = destination.droppableId;
 
-    // Filtra as tarefas de origem e destino
     const sourceTasks = tasks.filter(task => task.status === sourceStatus);
     const destTasks = tasks.filter(task => task.status === destStatus);
 
-    // Encontra a tarefa que está sendo movida
     const movedTask = sourceTasks[source.index];
 
     if (!movedTask) return;
 
-    // Atualiza o status da tarefa
     const updatedTask = { ...movedTask, status: destStatus };
 
-    // Atualiza a lista de tarefas localmente
     const updatedTasks = tasks.map(task =>
       task._id === movedTask._id ? updatedTask : task
     );
 
     setTasks(updatedTasks);
 
-    // Atualiza o status da tarefa no backend
     try {
       await updateTask(movedTask._id, destStatus);
     } catch (error) {
       console.error('Erro ao atualizar tarefa:', error);
-      // Opcional: Reverter o estado local se a atualização falhar
       setTasks(tasks);
     }
   };
 
-  // Lista de itens do sidebar para facilitar a renderização
   const sidebarItems = [
     { label: 'Board', icon: <LeaderboardIcon /> },
     { label: 'Features', icon: <AddchartIcon /> },
     { label: 'Settings', icon: <SettingsIcon /> },
   ];
 
-  // Função para obter a contagem de tarefas por status
   const getTaskCount = (status) => {
     return tasks.filter((task) => task.status === status).length;
   };
@@ -166,7 +156,6 @@ const App = () => {
         padding: 0,
       }}
     >
-      {/* Sidebar Esquerdo - Azul */}
       <Box
         width="80px"
         bgcolor="#0d47a1"
@@ -175,7 +164,6 @@ const App = () => {
         alignItems="center"
         height="100vh"
       >
-        {/* Ícone do Jira */}
         <Box
           component="img"
           src="/jira-1.svg"
@@ -188,21 +176,18 @@ const App = () => {
           }}
         />
 
-        {/* Ícone de Buscar */}
         <Tooltip title="Buscar" placement="right">
           <IconButton
             color="inherit"
             aria-label="search"
             sx={{ width: '100%', marginBottom: 2, color: 'white' }}
             onClick={() => {
-              // Ação para buscar (a ser implementada)
             }}
           >
             <SearchIcon />
           </IconButton>
         </Tooltip>
 
-        {/* Ícone de Adicionar Tarefa */}
         <Tooltip title="Adicionar Tarefa" placement="right">
           <IconButton
             color="inherit"
@@ -215,7 +200,6 @@ const App = () => {
         </Tooltip>
       </Box>
 
-      {/* Sidebar Direito - Light Grey com Hover */}
       <Box
         width="250px"
         bgcolor="#f1f2f6"
@@ -226,11 +210,10 @@ const App = () => {
         sx={{ paddingLeft: '1rem', paddingRight: '1rem' }}
       >
         <Box sx={{ marginTop: '2rem', width: '100%', mb: 4 }}>
-          {/* Novo Conteúdo: Ícone e Textos */}
           <Box display="flex" alignItems="center" mb={1}>
             <Box
               component="img"
-              src="/foguete.jpg" // Caminho para a imagem no diretório public
+              src="/foguete.jpg" 
               alt="Foguete Icon"
               sx={{
                 width: 40,
@@ -248,7 +231,6 @@ const App = () => {
             </Box>
           </Box>
 
-          {/* Itens de Menu Existentes */}
           {sidebarItems.map((item, index) => (
             <Box
               key={index}
@@ -284,7 +266,6 @@ const App = () => {
             </Box>
           ))}
 
-          {/* Linha Divisória */}
           <Divider
             sx={{
               width: '100%',
@@ -293,7 +274,6 @@ const App = () => {
             }}
           />
 
-          {/* Novo Item de Menu: Give Feedback */}
           <Box
             sx={{
               display: 'flex',
@@ -327,7 +307,6 @@ const App = () => {
         </Box>
       </Box>
 
-      {/* Conteúdo Principal */}
       <Box
         flex={1}
         overflow="hidden"
@@ -452,7 +431,6 @@ const App = () => {
           </DragDropContext>
         </Box>
 
-        {/* Diálogo para Adicionar Nova Tarefa */}
         <Dialog open={open} onClose={handleClose} fullWidth maxWidth="sm">
           <DialogTitle>Adicionar Nova Tarefa</DialogTitle>
           <DialogContent>
