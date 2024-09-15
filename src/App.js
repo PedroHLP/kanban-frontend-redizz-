@@ -40,7 +40,7 @@ const App = () => {
 
   const fetchTasks = async () => {
     try {
-      const response = await axios.get('http://localhost:5000/tasks');
+      const response = await axios.get('https://kanban-app-pcee.onrender.com/tasks');
       setTasks(response.data);
     } catch (error) {
       console.error('Erro ao buscar tarefas:', error);
@@ -64,7 +64,7 @@ const App = () => {
       return;
     }
     try {
-      const response = await axios.post('http://localhost:5000/tasks', {
+      const response = await axios.post('https://kanban-app-pcee.onrender.com/tasks', {
         title: taskTitle,
         description: taskDescription,
         status: taskStatus,
@@ -78,7 +78,7 @@ const App = () => {
 
   const updateTask = async (id, updatedStatus) => {
     try {
-      const response = await axios.put(`http://localhost:5000/tasks/${id}`, {
+      const response = await axios.put(`https://kanban-app-pcee.onrender.com/tasks/${id}`, {
         status: updatedStatus,
       });
       setTasks(tasks.map((task) => (task._id === id ? response.data : task)));
@@ -89,7 +89,7 @@ const App = () => {
 
   const deleteTask = async (id) => {
     try {
-      await axios.delete(`http://localhost:5000/tasks/${id}`);
+      await axios.delete(`https://kanban-app-pcee.onrender.com/tasks/${id}`);
       setTasks(tasks.filter((task) => task._id !== id));
     } catch (error) {
       console.error('Erro ao deletar tarefa:', error);
